@@ -14,11 +14,11 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey (KeyCode.UpArrow)) {
-			this.transform.Translate(cam.transform.forward);
+			this.transform.position = this.transform.position + cam.transform.forward;
 			Debug.Log(this.transform.forward.ToString());
 		}
 		else if (Input.GetKey (KeyCode.DownArrow)) {
-			this.transform.Translate(-cam.transform.forward);
+			this.transform.position = this.transform.position - cam.transform.forward;
 		}
 		else if (Input.GetKey (KeyCode.LeftArrow)) {
 			transform.Rotate(Vector3.up * Time.deltaTime * 100);
