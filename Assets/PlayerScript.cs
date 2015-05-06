@@ -15,7 +15,6 @@ public class PlayerScript : MonoBehaviour {
 	void Update () {
 		if (Input.GetKey (KeyCode.UpArrow)) {
 			this.transform.position = this.transform.position + cam.transform.forward;
-			Debug.Log(this.transform.forward.ToString());
 		}
 		else if (Input.GetKey (KeyCode.DownArrow)) {
 			this.transform.position = this.transform.position - cam.transform.forward;
