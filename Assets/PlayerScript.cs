@@ -8,7 +8,10 @@ public class PlayerScript : MonoBehaviour {
 	public GameObject cube;
 	public Vector3 focusBlock;
 	public float speed = 0.05f;
+
 	public bool canJump;
+	public int blockCount = 0;
+	public ArrayList  map = new ArrayList();
 
 	private Vector3 lastFocusBlock;
 
@@ -61,8 +64,13 @@ public class PlayerScript : MonoBehaviour {
 			lastFocusBlock = focusBlock;
 			cube.layer = LayerMask.NameToLayer("default");
 			cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			cube.name = "block" + lastFocusBlock.x + "." + lastFocusBlock.y + "." + lastFocusBlock.z; //doesn't work - should be named based on placement
+			cube.name = "block" + blockCount; //doesn't work - should be named based on placement
 			cube.layer = LayerMask.NameToLayer("Ignore Raycast");
+			//count the number of blocks on screen for naming
+			blockCount++;
+			//keep track of block coordinates
+			map.Add(new point3D((int)cube.transform.position.x,(int)cube.transform.position.y, (int)cube.transform.position.z ));
+
 		} else if (Input.GetKey (KeyCode.Space) && canJump) {
 			GetComponent <Rigidbody>().AddForce(Vector3.up * 250f);
 			canJump = false;
@@ -83,7 +91,6 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision c){
-		Debug.Log ("here");
 		if(c.gameObject.tag == "floor"){
 			canJump = true;
 		}
