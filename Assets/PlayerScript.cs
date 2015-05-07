@@ -13,8 +13,8 @@ public class PlayerScript : MonoBehaviour {
 
 	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 	public RotationAxes axes = RotationAxes.MouseXAndY;
-	public float sensitivityX = 15F;
-	public float sensitivityY = 15F;
+	public float sensitivityX = 10F;
+	public float sensitivityY = 10F;
 	
 	public float minimumX = -360F;
 	public float maximumX = 360F;
@@ -34,19 +34,9 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (axes == RotationAxes.MouseXAndY)
+		if (axes == RotationAxes.MouseX)
 		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
-			
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-		}
-		else if (axes == RotationAxes.MouseX)
-		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+			cam.transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
 		}
 		else
 		{
@@ -58,15 +48,15 @@ public class PlayerScript : MonoBehaviour {
 		
 		Vector3 forward = cam.transform.forward;
 		forward.y = 0; // this should be changed to being relative to the ground. later.
-		if (Input.GetKey (KeyCode.UpArrow)) {
+		if (Input.GetKey (KeyCode.W)) {
 			this.transform.position = this.transform.position + forward * speed;
-		} else if (Input.GetKey (KeyCode.DownArrow)) {
+		} else if (Input.GetKey (KeyCode.S)) {
 			this.transform.position = this.transform.position - forward *speed;
-		} else if (Input.GetKey (KeyCode.LeftArrow)) {
+		} else if (Input.GetKey (KeyCode.A)) {
 			transform.Rotate (Vector3.up * Time.deltaTime * 100);
-		} else if (Input.GetKey (KeyCode.RightArrow)) {
+		} else if (Input.GetKey (KeyCode.D)) {
 			transform.Rotate (Vector3.down * Time.deltaTime * 100);
-		} else if (Input.GetKey (KeyCode.Space) && focusBlock != lastFocusBlock) {
+		} else if (Input.GetKey (KeyCode.Mouse0) && focusBlock != lastFocusBlock) {
 			//ideally check if other cubes exist/check map, but for now. make sure to only make one cube/ click
 			lastFocusBlock = focusBlock;
 			cube.layer = LayerMask.NameToLayer("default");
