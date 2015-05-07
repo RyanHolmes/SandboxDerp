@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour {
 	public GameObject cube;
 	public Vector3 focusBlock;
 	public float speed = 0.05f;
+	public bool canJump;
 
 	private Vector3 lastFocusBlock;
 
@@ -29,7 +30,7 @@ public class PlayerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
+		canJump = true;
 	}
 	
 	// Update is called once per frame
@@ -42,7 +43,7 @@ public class PlayerScript : MonoBehaviour {
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 
-			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
+			cam.transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 		}
 		
 		Vector3 forward = cam.transform.forward;
@@ -62,9 +63,12 @@ public class PlayerScript : MonoBehaviour {
 			cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 			cube.name = "block" + lastFocusBlock.x + "." + lastFocusBlock.y + "." + lastFocusBlock.z; //doesn't work - should be named based on placement
 			cube.layer = LayerMask.NameToLayer("Ignore Raycast");
+		} else if (Input.GetKey (KeyCode.Space) && canJump) {
+			GetComponent <Rigidbody>().AddForce(Vector3.up * 250f);
+			canJump = false;
 		}
-
-		Ray ray = this.cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+	
+	Ray ray = this.cam.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		RaycastHit[] hits = Physics.RaycastAll (ray, 500);
 		if (hits.Length > 0) {
 
@@ -75,6 +79,13 @@ public class PlayerScript : MonoBehaviour {
 			focusBlock.z = Mathf.Round(focusBlock.z);
 
 			cube.transform.position = focusBlock;
+		}
+	}
+
+	void OnCollisionEnter(Collision c){
+		Debug.Log ("here");
+		if(c.gameObject.tag == "floor"){
+			canJump = true;
 		}
 	}
 }
