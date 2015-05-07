@@ -79,7 +79,8 @@ public class PlayerScript : MonoBehaviour {
 			//count the number of blocks on screen for naming
 			blockCount++;
 			//keep track of block coordinates
-			map.Add(new point3D((int)cube.transform.position.x,(int)cube.transform.position.y, (int)cube.transform.position.z ));
+			map.Add(new point3D((int)focusBlock.x,(int)focusBlock.y, (int)focusBlock.z )); //TODO: pushing the wrong values
+			Debug.Log(map[blockCount-1].ToString());
 
 		} else if (Input.GetKey (KeyCode.Space) && canJump) {
 			GetComponent <Rigidbody>().AddForce(Vector3.up * 250f);

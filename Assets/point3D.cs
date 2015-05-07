@@ -12,7 +12,7 @@ public class point3D  {
 		pointz = z;
 	}
 
-	public string toString(){
+	public override string ToString(){
 		return (pointx.ToString() + "," + pointy.ToString() + "," + pointz.ToString());
 	}
 
