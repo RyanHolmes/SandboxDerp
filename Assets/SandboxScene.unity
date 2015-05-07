@@ -439,6 +439,7 @@ MonoBehaviour:
   focusBlock: {x: 0, y: 0, z: 0}
   speed: .0500000007
   canJump: 0
+  blockCount: 0
   axes: 0
   sensitivityX: 15
   sensitivityY: 15

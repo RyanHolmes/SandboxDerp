@@ -42,6 +42,14 @@ public class PlayerScript : MonoBehaviour {
 		if (axes == RotationAxes.MouseX){
 			cam.transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
 		}
+		else if (axes == RotationAxes.MouseXAndY){
+            float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+
+            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+            rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+
+            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+        }
 		else{
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
@@ -56,9 +64,11 @@ public class PlayerScript : MonoBehaviour {
 		} else if (Input.GetKey (KeyCode.S)) {
 			this.transform.position = this.transform.position - forward *speed;
 		} else if (Input.GetKey (KeyCode.D)) {
-			transform.Rotate (Vector3.up * Time.deltaTime * 100);
+			//transform.Rotate (Vector3.up * Time.deltaTime * 100);
+			this.transform.Translate(Vector3.right * 0.1f);
 		} else if (Input.GetKey (KeyCode.A)) {
-			transform.Rotate (Vector3.down * Time.deltaTime * 100);
+			//transform.Rotate (Vector3.down * Time.deltaTime * 100);
+			this.transform.Translate(Vector3.left * 0.1f);
 		} else if (Input.GetKey (KeyCode.Mouse0) && focusBlock != lastFocusBlock) {
 			//ideally check if other cubes exist/check map, but for now. make sure to only make one cube/ click
 			lastFocusBlock = focusBlock;
